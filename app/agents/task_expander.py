@@ -3,7 +3,15 @@ from app.config import GROQ_API_KEY, MODEL_NAME
 
 client = Groq(api_key=GROQ_API_KEY)
 
+from app.utils.file_utils import get_file_tree
+
 def expand_phase(phase_number, phase_name, project, tech, features):
+    # Get the current project structure for context
+    try:
+        file_tree = get_file_tree()
+    except Exception:
+        file_tree = "(No file context available)"
+
     prompt = f"""
 You are an execution agent.
 
@@ -17,6 +25,11 @@ Phase: {phase_name}
 Project: {project}
 Tech stack: {tech}
 Core features: {features}
+
+Current File Structure (for context):
+{file_tree}
+
+If files already exist, suggest editing them instead of creating new ones.
 """
 
     res = client.chat.completions.create(
