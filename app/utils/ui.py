@@ -145,6 +145,7 @@ def print_task_commands():
   [yellow]retry-phase[/yellow]            Reset current phase and start over
   [yellow]undo-verify[/yellow]            Undo last phase verification
   [yellow]history[/yellow]                View phase completion history
+  [yellow]suggest[/yellow]                Get smart suggestions based on current code
   [yellow]help[/yellow]                   Show this help message
 """
     console.print(Panel(commands_text.strip(), border_style="blue", box=box.ROUNDED))

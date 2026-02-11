@@ -7,7 +7,8 @@ from app.utils.ui import (
     console, print_header, print_success, print_error, print_warning, print_info,
     print_phase_header, print_tasks_table, print_phases_list, ask_input, ask_confirm,
     print_commit_message, print_note, print_welcome, print_separator, print_task_stats,
-    print_task_commands, print_phase_history, print_rollback_warning, ask_rollback_target
+    print_task_commands, print_phase_history, print_rollback_warning, ask_rollback_target,
+    Panel, box
 )
 from app.utils.task_manager import (
     save_tasks, get_tasks, mark_task_complete, mark_task_incomplete,
@@ -17,6 +18,9 @@ from app.utils.rollback import (
     record_phase_completion, get_phase_history, rollback_to_phase, retry_current_phase,
     can_rollback, get_rollback_choices, undo_last_verification
 )
+from app.agents.suggestion_agent import get_suggestions
+from app.utils.git_utils import is_git_repo
+
 
 
 def handle_startup_state():
@@ -430,6 +434,16 @@ def main():
                 history = get_phase_history()
                 print_phase_history(history, idx)
                 console.print()
+
+            elif cmd == "suggest":
+                console.print()
+                print_info("Analyzing context and generating suggestions...")
+                with console.status("[bold blue]Thinking..."):
+                    suggestions = get_suggestions(STATE["project"], STATE["tech"], STATE["features"])
+                
+                console.print(Panel(suggestions, title="💡 Smart Suggestions", border_style="yellow", box=box.ROUNDED))
+                console.print()
+
 
             else:
                 print_error(f'Unknown command: {cmd}. Type "help" for available commands.')
