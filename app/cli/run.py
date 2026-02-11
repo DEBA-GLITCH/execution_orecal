@@ -7,11 +7,15 @@ from app.utils.ui import (
     console, print_header, print_success, print_error, print_warning, print_info,
     print_phase_header, print_tasks_table, print_phases_list, ask_input, ask_confirm,
     print_commit_message, print_note, print_welcome, print_separator, print_task_stats,
-    print_task_commands
+    print_task_commands, print_phase_history, print_rollback_warning, ask_rollback_target
 )
 from app.utils.task_manager import (
     save_tasks, get_tasks, mark_task_complete, mark_task_incomplete,
     add_task, delete_task, edit_task, get_task_stats, start_phase_timer, complete_phase_timer
+)
+from app.utils.rollback import (
+    record_phase_completion, get_phase_history, rollback_to_phase, retry_current_phase,
+    can_rollback, get_rollback_choices, undo_last_verification
 )
 
 
@@ -378,6 +382,55 @@ def main():
                 except (ValueError, IndexError):
                     print_error("Usage: delete-task <number>")
             
+            elif cmd == "rollback":
+                if not can_rollback():
+                    print_error("No previous phases to roll back to.")
+                    continue
+                
+                choices = get_rollback_choices()
+                target_idx = ask_rollback_target(choices)
+                
+                if target_idx is not None:
+                    print_rollback_warning(idx, target_idx, STATE["phases"])
+                    if ask_confirm("Are you sure you want to roll back?", default=False):
+                        if rollback_to_phase(target_idx):
+                            print_success(f"Successfully rolled back to Phase {target_idx + 1}")
+                            # This breaks the task command loop AND the main execution loop for the current phase
+                            # Since current_phase in STATE is updated, the next iteration of the main loop will be the target phase
+                            break
+                        else:
+                            print_error("Rollback failed.")
+                console.print()
+
+            elif cmd == "retry-phase":
+                console.print()
+                print_warning(f"This will clear all tasks and progress for Phase {phase_number}.")
+                if ask_confirm("Are you sure you want to restart this phase?", default=False):
+                    if retry_current_phase():
+                        print_success(f"Phase {phase_number} reset.")
+                        # Break command loop to refresh tasks for the same phase index
+                        break
+                console.print()
+
+            elif cmd == "undo-verify":
+                if not can_rollback():
+                    print_error("Nothing to undo.")
+                    continue
+                
+                console.print()
+                print_warning(f"This will move you back to Phase {idx}.")
+                if ask_confirm("Are you sure you want to undo the last verification?", default=True):
+                    if undo_last_verification():
+                        print_success("Last verification undone.")
+                        break
+                console.print()
+
+            elif cmd == "history":
+                console.print()
+                history = get_phase_history()
+                print_phase_history(history, idx)
+                console.print()
+
             else:
                 print_error(f'Unknown command: {cmd}. Type "help" for available commands.')
                 console.print()
@@ -391,6 +444,17 @@ def main():
         if success:
             # Complete phase timer
             time_spent = complete_phase_timer(idx)
+            
+            # Record in history before moving forward
+            # Extract commit SHA if possible (usually in the message)
+            commit_sha = ""
+            if "matched commit" in message.lower() and "[" in message:
+                try:
+                    commit_sha = message.split("[")[1].split("]")[0]
+                except:
+                    pass
+
+            record_phase_completion(idx, phase_name, commit_sha, time_spent)
             
             print_success("Phase verified successfully!")
             console.print(f"   {message}", style="dim")

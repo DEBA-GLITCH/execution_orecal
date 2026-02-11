@@ -14,7 +14,8 @@ STATE = {
     "current_phase": 0,
     "status": "setup",  # Possible values: 'setup', 'in_progress', 'completed'
     "phase_tasks": {},  # Format: {phase_index: [{"task": "...", "completed": bool, "started_at": timestamp}]}
-    "phase_time_tracking": {}  # Format: {phase_index: {"started_at": timestamp, "completed_at": timestamp}}
+    "phase_time_tracking": {},  # Format: {phase_index: {"started_at": timestamp, "completed_at": timestamp}}
+    "phase_history": []  # Format: [{"phase": 0, "completed_at": timestamp, "commit": "sha", "tasks_snapshot": [...]}]
 }
 
 # Storage configuration
