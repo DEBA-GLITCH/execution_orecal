@@ -66,17 +66,82 @@ def print_phase_header(phase_number, phase_name, total_phases):
     console.print(Panel(panel_content, box=box.HEAVY, border_style="magenta", padding=(1, 2)))
 
 
-def print_tasks_table(tasks, title="Tasks"):
-    """Print tasks in a formatted table"""
+def print_tasks_table(tasks, title="Tasks", show_status=False):
+    """
+    Print tasks in a formatted table
+    
+    Args:
+        tasks: List of task strings OR list of task objects with 'task' and 'completed' keys
+        title: Table title
+        show_status: If True, shows completion status column
+    """
     table = Table(title=title, box=box.ROUNDED, border_style="blue", show_header=True, header_style="bold cyan")
     
     table.add_column("", style="dim", width=3)
     table.add_column("Task", style="white")
     
+    if show_status:
+        table.add_column("Status", width=10)
+    
     for i, task in enumerate(tasks, 1):
-        table.add_row(f"{i}.", task)
+        # Handle both string tasks and task objects
+        if isinstance(task, dict):
+            task_text = task["task"]
+            if show_status:
+                status = "[green]✅ Done[/green]" if task.get("completed", False) else "[dim]☐ Todo[/dim]"
+                table.add_row(f"{i}.", task_text, status)
+            else:
+                table.add_row(f"{i}.", task_text)
+        else:
+            # String task
+            table.add_row(f"{i}.", task)
+            if show_status:
+                table.add_row(f"{i}.", task, "[dim]☐ Todo[/dim]")
     
     console.print(table)
+
+
+def print_task_stats(completed, total, phase_number=None):
+    """
+    Print task completion statistics
+    
+    Args:
+        completed: Number of completed tasks
+        total: Total number of tasks
+        phase_number: Optional phase number to display
+    """
+    percentage = (completed / total * 100) if total > 0 else 0
+    
+    # Progress bar
+    filled = int(percentage / 5)  # 20 blocks for 100%
+    bar = "█" * filled + "░" * (20 - filled)
+    
+    if phase_number:
+        title = f"Phase {phase_number} Progress"
+    else:
+        title = "Task Progress"
+    
+    content = f"{bar} [cyan]{percentage:.0f}%[/cyan]\n[bold]{completed}/{total} tasks completed[/bold]"
+    
+    console.print(Panel(content, title=title, border_style="cyan", box=box.ROUNDED))
+
+
+def print_task_commands():
+    """Print available task management commands"""
+    commands_text = """
+[bold cyan]Task Management Commands:[/bold cyan]
+
+  [yellow]mark <number>[/yellow]          Mark task as complete (e.g., 'mark 1')
+  [yellow]unmark <number>[/yellow]        Mark task as incomplete
+  [yellow]add-task[/yellow]               Add a new task to current phase
+  [yellow]edit-task <number>[/yellow]     Edit task description
+  [yellow]delete-task <number>[/yellow]   Remove a task
+  [yellow]list-tasks[/yellow]             Show all tasks with status
+  [yellow]next-phase[/yellow]             Proceed to verification (move to next phase)
+  [yellow]help[/yellow]                   Show this help message
+"""
+    console.print(Panel(commands_text.strip(), border_style="blue", box=box.ROUNDED))
+
 
 
 def print_phases_list(phases, current_phase=0):

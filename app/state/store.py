@@ -12,7 +12,9 @@ STATE = {
     "repo_url": "",
     "phases": [],
     "current_phase": 0,
-    "status": "setup"  # Possible values: 'setup', 'in_progress', 'completed'
+    "status": "setup",  # Possible values: 'setup', 'in_progress', 'completed'
+    "phase_tasks": {},  # Format: {phase_index: [{"task": "...", "completed": bool, "started_at": timestamp}]}
+    "phase_time_tracking": {}  # Format: {phase_index: {"started_at": timestamp, "completed_at": timestamp}}
 }
 
 # Storage configuration
