@@ -1,91 +1,141 @@
-# execution_orecal
+# 🔮 Execution Oracle
 
-**execution_orecal** is an AI-powered project manager CLI that guides you through building software projects step-by-step. It breaks down your idea into execution phases, generates concrete developer tasks, and verifies your progress by checking your GitHub commits.
+> **An AI-Powered, Context-Aware Project Execution Assistant**
 
-## Features
+**Execution Oracle** is a sophisticated CLI tool designed to streamline your development workflow. It bridges the gap between planning and execution by generating phase-specific tasks, tracking progress, and automating your GitHub workflow—all while maintaining deep context awareness of your codebase.
 
-- **🤖 Phase Generation**: Automatically breaks down your project into logical execution phases.
-- **📝 Context-Aware Task Generation**: Reads your current file structure to generate relevant, actionable tasks.
-- **🔍 Interactive Planning**: Review, edit, or regenerate the project plan before starting.
-- **✅ GitHub Verification**: Verifies that you have completed a phase by checking if your latest commit message matches the required intent.
-- **octocat: GitHub Issue Integration**: Automatically creates GitHub Issues for generated tasks with a single click.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
-## Prerequisites
+---
 
-- Python 3.8+
-- A [Groq API Key](https://console.groq.com/) (for AI generation)
-- A GitHub Account & [Personal Access Token](https://github.com/settings/tokens) (for repo verification and issue creation)
-- Git installed and configured locally
+## 🌟 Key Features
 
-## Installation
+### 🧠 Smart Context & AI
+*   **Context-Aware Task Generation**: Analyzes your file structure and `git diff` to generate relevant, actionable tasks for each development phase.
+*   **AI Semantic Verification**: Uses **Groq AI** to semantically analyze your code changes and verify if they actually meet the phase goals—not just keyword matching.
+*   **Smart Suggestions**: Run `suggest` to get AI-powered coding advice based on your current work-in-progress.
 
-1.  **Clone the repository** (if you haven't already):
+### 🎨 Rich Terminal UI
+*   **Modern Interface**: Built with `rich` for a beautiful, colorful, and readable terminal experience.
+*   **Visual Progress**: Track phase completion with dynamic progress bars and status indicators (✅/☐).
+*   **Interactive Tables**: View and manage tasks in clean, formatted tables.
+
+### ⚡ Enhanced Task Management
+*   **Granular Control**: Add, edit, delete, and mark tasks as complete/incomplete interactively.
+*   **State Persistence**: Your progress is saved automatically. Quit and resume exactly where you left off.
+*   **Time Tracking**: Automatically tracks time spent on each phase for productivity insights.
+
+### 🛡️ Safety & Navigation
+*   **Rollback & Retry**: Made a mistake? Rollback to a previous phase or retry the current one with a single command.
+*   **Undo Verification**: Accidentally verified a phase? Undo it and keep working.
+*   **History Tracking**: View a complete history of verified phases and time spent.
+
+### 🐙 Deep GitHub Integration
+*   **Automated Project Management**:
+    *   **Milestones**: Automatically creates GitHub Milestones for each phase.
+    *   **Issues**: Generates GitHub Issues for tasks, auto-tagged with labels (`phase-X`) and assigned to milestones.
+    *   **Robust Handling**: Automatically handles permission errors (like missing label scopes) gracefully.
+*   **Pull Request Automation**: Suggests and creates detailed Pull Requests upon phase completion.
+*   **Branch Strategy**: Detects `main` branch usage and suggests creating feature branches to keep your workflow clean.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+*   Python 3.8+
+*   A Groq API Key (for AI features)
+*   A GitHub Personal Access Token (for integration features)
+
+### Installation
+
+1.  **Clone the repository:**
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/yourusername/execution_orecal.git
     cd execution_orecal
     ```
 
-2.  **Install dependencies**:
+2.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-## Configuration
+3.  **Configure Environment:**
+    Create a `.env` file in the root directory:
+    ```env
+    GROQ_API_KEY=your_groq_api_key
+    GITHUB_TOKEN=your_github_token
+    MODEL_NAME=llama3-8b-8192  # or your preferred Groq model
+    ```
 
-Create a `.env` file in the root directory with the following keys:
+---
 
-```ini
-# .env file
+## 📖 Usage
 
-# Required: API Key for Groq (LLM provider)
-GROQ_API_KEY=gsk_...
-
-# Optional: Documentation says it defaults to llama3-8b-8192
-MODEL_NAME=llama3-8b-8192
-
-# Required: GitHub Token for verification and creating issues
-# Scopes needed: 'repo' (for private repos) or 'public_repo' (for public)
-GITHUB_TOKEN=ghp_...
-```
-
-## Usage
-
-Run the CLI tool from the root directory:
-
+### Start the Oracle
+Run the CLI application:
 ```bash
-python -m app.cli.run
+python3 -m app.cli.run
 ```
 
-### Workflow
+### Navigation & Commands
+Once inside the tool, you have a powerful command suite at your disposal:
 
-1.  **Initialization**: The tool asks for your **Project Name**, **Tech Stack**, **Features**, and **Platform**.
-2.  **Planning**: It generates a high-level plan (Phases).
-    - You can **[A]pprove**, **[R]egenerate**, or **[E]dit** this plan interactively.
-3.  **Repository Setup**: It asks for your **GitHub Repository URL** and whether you want to auto-create GitHub Issues.
-4.  **Execution Loop**:
-    - **Current Phase**: displays the phase name.
-    - **Tasks**: lists concrete tasks to complete.
-    - **Issues**: If enabled, creates GitHub issues for these tasks.
-    - **Work**: You write the code, complete the tasks, and commit your changes.
-    - **Commit Intent**: You MUST use the specific commit message format provided by the tool (e.g., `phase-1: setup complete`).
-    - **Verification**: Type `next-phase`. The tool checks your GitHub repo's latest commit. If the message matches, you proceed to the next phase.
+| Command | Description |
+| :--- | :--- |
+| **Task Management** | |
+| `mark <n>` | Mark task #n as complete |
+| `unmark <n>` | Mark task #n as incomplete |
+| `add-task` | Add a custom task to the current phase |
+| `edit-task <n>` | Edit the description of task #n |
+| `delete-task <n>` | Remove task #n |
+| `list-tasks` | Show the task table again |
+| **Navigation** | |
+| `next-phase` | Verify current work and proceed to the next phase |
+| `rollback` | Go back to a previous phase (destructive for current progress) |
+| `retry-phase` | Restart the current phase from scratch |
+| `undo-verify` | Undo the last successful verification |
+| `history` | Show the session history log |
+| **AI** | |
+| `suggest` | Request AI analysis and next-step suggestions |
+| `help` | Show this help menu |
 
-## Troubleshooting
+---
 
--   **"Phase NOT verified"**: Ensure you have `git push`'ed your commits to the remote repo. The tool checks the *remote* GitHub repo, not your local git.
--   **"GROQ_API_KEY missing"**: Ensure you created the `.env` file and it is valid.
--   **Issues not creating**: Check if your `GITHUB_TOKEN` has the `repo` or `public_repo` scope.
-
-## Project Structure
+## 📂 Project Structure
 
 ```
 execution_orecal/
 ├── app/
-│   ├── agents/          # AI Logic (Planner, task expander)
-│   ├── cli/             # Main entry point (run.py)
-│   ├── state/           # State management
-│   └── utils/           # Utilities (GitHub, File System)
+│   ├── agents/          # AI Agents (Planner, Expander, Verifier, Suggestion)
+│   ├── cli/             # Main CLI entry point and logic
+│   ├── state/           # Session state management
+│   └── utils/           # Utilities (UI, Git, GitHub, Files, Tasks)
+├── .oracle_data/        # Local session storage (auto-generated)
 ├── requirements.txt     # Python dependencies
-├── .env                 # API Keys (gitignored)
 └── README.md            # This file
 ```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1.  Fork the repository
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+*Built with passion by Deba-Glitch*
