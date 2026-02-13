@@ -37,6 +37,10 @@ Current File Structure (for context):
 
 If files already exist, suggest editing them instead of creating new ones.
 Use the Git Diff context to understand what has already been started or completed.
+
+CRITICAL: The current directory contains the source code for this tool (execution_orecal). 
+DO NOT suggest tasks for refactoring execution_orecal unless the project name is specifically about it.
+FOCUS ONLY on implementing the user's project: {project}.
 """
 
     res = client.chat.completions.create(

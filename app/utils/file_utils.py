@@ -1,6 +1,6 @@
 import os
 
-def get_file_tree(start_path=".", exclude_dirs=[".git", "__pycache__", "venv", ".venv", "node_modules"]):
+def get_file_tree(start_path=".", exclude_dirs=[".git", "__pycache__", "venv", ".venv", "node_modules", ".oracle_data", ".gemini", "brain"]):
     """
     Generates a string representation of the file directory tree.
     

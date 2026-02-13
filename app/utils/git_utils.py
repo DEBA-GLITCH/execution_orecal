@@ -44,3 +44,17 @@ def is_git_repo():
         return True
     except subprocess.CalledProcessError:
         return False
+def get_current_branch():
+    """Returns the name of the current git branch."""
+    try:
+        return subprocess.check_output(["git", "branch", "--show-current"], stderr=subprocess.STDOUT).decode("utf-8").strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "main"
+
+def create_branch(branch_name):
+    """Creates and switches to a new git branch."""
+    try:
+        subprocess.check_output(["git", "checkout", "-b", branch_name], stderr=subprocess.STDOUT)
+        return True, f"Switched to new branch: {branch_name}"
+    except subprocess.CalledProcessError as e:
+        return False, e.output.decode("utf-8")
