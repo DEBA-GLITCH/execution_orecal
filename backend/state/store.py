@@ -97,3 +97,9 @@ def archive_state():
     except IOError as e:
         print(f"⚠️  Warning: Failed to archive state: {e}")
 
+
+class Store:
+    def save_plan(self, phases):
+        STATE["phases"] = phases
+        save_state()
+

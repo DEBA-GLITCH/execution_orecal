@@ -1,7 +1,7 @@
 from groq import Groq
-from app.config import GROQ_API_KEY, MODEL_NAME
-from app.utils.file_utils import get_file_tree
-from app.utils.git_utils import get_git_diff, is_git_repo
+from config import GROQ_API_KEY, MODEL_NAME
+from utils.file_utils import get_file_tree
+from utils.git_utils import get_git_diff, is_git_repo
 
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -17,30 +17,25 @@ def expand_phase(phase_number, phase_name, project, tech, features):
         git_context = f"\nRecent Code Changes (Git Diff):\n{get_git_diff()[:2000]}\n"
 
     prompt = f"""
-You are an execution agent.
+You are an execution agent helping to build: {project}
 
 Generate 4 to 6 concrete developer tasks for this phase.
-Tasks must be clear actions a developer can do.
-DO NOT use headings.
-DO NOT explain.
-Each task must be on a new line.
+Tasks must be clear actions a developer can do to build {project}.
+DO NOT suggest tasks for execution_orecal or any other tool.
+FOCUS ONLY on building: {project}
 
 Phase: {phase_name}
 Project: {project}
 Tech stack: {tech}
 Core features: {features}
 
-Current File Structure (for context):
-{file_tree}
+Each task must be on a new line.
+DO NOT use headings or explanations.
 
-{git_context}
-
-If files already exist, suggest editing them instead of creating new ones.
-Use the Git Diff context to understand what has already been started or completed.
-
-CRITICAL: The current directory contains the source code for this tool (execution_orecal). 
-DO NOT suggest tasks for refactoring execution_orecal unless the project name is specifically about it.
-FOCUS ONLY on implementing the user's project: {project}.
+Example tasks:
+- Create main.py file with Flask app initialization
+- Add user authentication endpoints
+- Design database schema for users table
 """
 
     res = client.chat.completions.create(

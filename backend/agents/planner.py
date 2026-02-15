@@ -1,9 +1,9 @@
 from groq import Groq
-from app.config import GROQ_API_KEY, MODEL_NAME
+from config import GROQ_API_KEY, MODEL_NAME
 
 client = Groq(api_key=GROQ_API_KEY)
 
-def generate_phases(project, tech, features, platform):
+def generate_phases(idea):
     prompt = f"""
 Return ONLY execution phases.
 No explanations. No markdown.
@@ -12,10 +12,7 @@ Format:
 Phase 1: <short name>
 Phase 2: <short name>
 
-Project: {project}
-Tech: {tech}
-Features: {features}
-Platform: {platform}
+Project Idea: {idea}
 """
 
     res = client.chat.completions.create(
