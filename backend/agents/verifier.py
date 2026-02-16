@@ -1,6 +1,6 @@
 import requests
 from groq import Groq
-from app.config import GITHUB_TOKEN, GROQ_API_KEY, MODEL_NAME
+from config import GITHUB_TOKEN, GROQ_API_KEY, MODEL_NAME
 
 def verify_phase(repo_url, phase_number):
     parts = repo_url.rstrip("/").split("/")

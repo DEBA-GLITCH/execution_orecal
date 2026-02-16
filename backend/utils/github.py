@@ -1,5 +1,5 @@
 import requests
-from app.config import GITHUB_TOKEN
+from config import GITHUB_TOKEN
 
 def create_issue(repo_url, title, body="", milestone=None, labels=None):
     """

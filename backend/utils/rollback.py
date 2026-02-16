@@ -4,7 +4,7 @@ Handles phase history, rollback operations, and phase retry functionality
 """
 
 from datetime import datetime
-from app.state.store import STATE, save_state
+from state.store import STATE, save_state
 
 
 def record_phase_completion(phase_index, phase_name, commit_sha="", time_spent=""):
@@ -22,7 +22,7 @@ def record_phase_completion(phase_index, phase_name, commit_sha="", time_spent="
         STATE["phase_history"] = []
     
     # Count completed tasks
-    from app.utils.task_manager import get_tasks
+    from utils.task_manager import get_tasks
     tasks = get_tasks(phase_index)
     tasks_completed = sum(1 for task in tasks if task.get("completed", False))
     

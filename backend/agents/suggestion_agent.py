@@ -1,6 +1,6 @@
 from groq import Groq
-from app.config import GROQ_API_KEY, MODEL_NAME
-from app.utils.git_utils import get_git_diff, is_git_repo, get_project_summary
+from config import GROQ_API_KEY, MODEL_NAME
+from utils.git_utils import get_git_diff, is_git_repo, get_project_summary
 
 client = Groq(api_key=GROQ_API_KEY)
 

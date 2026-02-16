@@ -1,141 +1,183 @@
-# 🔮 Execution Oracle
+# AI-Powered Execution Planning Dashboard
 
-> **An AI-Powered, Context-Aware Project Execution Assistant**
+Turn your project ideas into structured execution phases using AI.
 
-**Execution Oracle** is a sophisticated CLI tool designed to streamline your development workflow. It bridges the gap between planning and execution by generating phase-specific tasks, tracking progress, and automating your GitHub workflow—all while maintaining deep context awareness of your codebase.
-
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Active-success)
-
----
-
-## 🌟 Key Features
-
-### 🧠 Smart Context & AI
-*   **Context-Aware Task Generation**: Analyzes your file structure and `git diff` to generate relevant, actionable tasks for each development phase.
-*   **AI Semantic Verification**: Uses **Groq AI** to semantically analyze your code changes and verify if they actually meet the phase goals—not just keyword matching.
-*   **Smart Suggestions**: Run `suggest` to get AI-powered coding advice based on your current work-in-progress.
-
-### 🎨 Rich Terminal UI
-*   **Modern Interface**: Built with `rich` for a beautiful, colorful, and readable terminal experience.
-*   **Visual Progress**: Track phase completion with dynamic progress bars and status indicators (✅/☐).
-*   **Interactive Tables**: View and manage tasks in clean, formatted tables.
-
-### ⚡ Enhanced Task Management
-*   **Granular Control**: Add, edit, delete, and mark tasks as complete/incomplete interactively.
-*   **State Persistence**: Your progress is saved automatically. Quit and resume exactly where you left off.
-*   **Time Tracking**: Automatically tracks time spent on each phase for productivity insights.
-
-### 🛡️ Safety & Navigation
-*   **Rollback & Retry**: Made a mistake? Rollback to a previous phase or retry the current one with a single command.
-*   **Undo Verification**: Accidentally verified a phase? Undo it and keep working.
-*   **History Tracking**: View a complete history of verified phases and time spent.
-
-### 🐙 Deep GitHub Integration
-*   **Automated Project Management**:
-    *   **Milestones**: Automatically creates GitHub Milestones for each phase.
-    *   **Issues**: Generates GitHub Issues for tasks, auto-tagged with labels (`phase-X`) and assigned to milestones.
-    *   **Robust Handling**: Automatically handles permission errors (like missing label scopes) gracefully.
-*   **Pull Request Automation**: Suggests and creates detailed Pull Requests upon phase completion.
-*   **Branch Strategy**: Detects `main` branch usage and suggests creating feature branches to keep your workflow clean.
+Built with:
+- ⚡ FastAPI (Backend)
+- ⚛️ React + Vite (Frontend)
+- 🧠 LLM-based Planning Engine
 
 ---
 
-## 🚀 Getting Started
+## 🏆 Hackathon Project Overview
 
-### Prerequisites
-*   Python 3.8+
-*   A Groq API Key (for AI features)
-*   A GitHub Personal Access Token (for integration features)
+Execution Orecal is an AI-driven execution planning system that transforms raw ideas into structured development phases.
 
-### Installation
+Instead of manually breaking down ideas, users can:
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/execution_orecal.git
-    cd execution_orecal
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Configure Environment:**
-    Create a `.env` file in the root directory:
-    ```env
-    GROQ_API_KEY=your_groq_api_key
-    GITHUB_TOKEN=your_github_token
-    MODEL_NAME=llama3-8b-8192  # or your preferred Groq model
-    ```
+1. Enter a project idea
+2. Instantly generate execution phases
+3. Visualize the roadmap in a modern dashboard UI
 
 ---
 
-## 📖 Usage
-
-### Start the Oracle
-Run the CLI application:
-```bash
-python3 -m app.cli.run
-```
-
-### Navigation & Commands
-Once inside the tool, you have a powerful command suite at your disposal:
-
-| Command | Description |
-| :--- | :--- |
-| **Task Management** | |
-| `mark <n>` | Mark task #n as complete |
-| `unmark <n>` | Mark task #n as incomplete |
-| `add-task` | Add a custom task to the current phase |
-| `edit-task <n>` | Edit the description of task #n |
-| `delete-task <n>` | Remove task #n |
-| `list-tasks` | Show the task table again |
-| **Navigation** | |
-| `next-phase` | Verify current work and proceed to the next phase |
-| `rollback` | Go back to a previous phase (destructive for current progress) |
-| `retry-phase` | Restart the current phase from scratch |
-| `undo-verify` | Undo the last successful verification |
-| `history` | Show the session history log |
-| **AI** | |
-| `suggest` | Request AI analysis and next-step suggestions |
-| `help` | Show this help menu |
-
----
-
-## 📂 Project Structure
+## 🏗 Project Structure
 
 ```
 execution_orecal/
-├── app/
-│   ├── agents/          # AI Agents (Planner, Expander, Verifier, Suggestion)
-│   ├── cli/             # Main CLI entry point and logic
-│   ├── state/           # Session state management
-│   └── utils/           # Utilities (UI, Git, GitHub, Files, Tasks)
-├── .oracle_data/        # Local session storage (auto-generated)
-├── requirements.txt     # Python dependencies
-└── README.md            # This file
+│
+├── backend/              # FastAPI + AI logic
+│   ├── agents/
+│   ├── state/
+│   ├── utils/
+│   ├── api.py
+│   ├── config.py
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/             # React + Vite dashboard
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+│
+└── README.md
 ```
 
 ---
 
-## 🤝 Contributing
+# ⚙️ Prerequisites
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1.  Fork the repository
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+- Python 3.10+
+- Node.js 18+
+- npm
 
 ---
 
-## 📜 License
+# 🔧 Backend Setup
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### 1️⃣ Navigate to backend
+
+```bash
+cd backend
+```
+
+### 2️⃣ Create virtual environment (optional)
+
+```bash
+python -m venv venv
+```
+
+
+### 3️⃣ Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Create environment file
+
+Create `.env` file inside `backend/`:
+
+```
+GROQ_API_KEY=your_api_key_here
+MODEL_NAME=your_model_name
+```
+
+### 5️⃣ Run backend server
+
+```bash
+uvicorn api:app --reload
+```
+
+Backend will run at:
+
+```
+http://localhost:8000
+```
+
+Swagger docs available at:
+
+```
+http://localhost:8000/docs
+```
 
 ---
 
-*Built with passion by Deba-Glitch*
+# 💻 Frontend Setup
+
+### 1️⃣ Navigate to frontend
+
+```bash
+cd frontend
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Start development server
+
+```bash
+npm run dev
+```
+
+Frontend runs at:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🔄 How It Works
+
+1. User enters project idea in dashboard
+2. Frontend sends POST request to `/start-project`
+3. Backend generates structured execution phases
+4. Phases are returned as JSON
+5. UI renders the execution roadmap
+
+---
+
+# 🌟 Key Features
+
+- AI-powered phase generation
+- Modern glassmorphism UI
+- Clean backend architecture
+- Swagger API documentation
+- Modular agent-based design
+
+---
+
+# 🛡 Security Note
+
+Do NOT commit `.env` file.
+
+Use `.env.example` as template.
+
+---
+
+# 🚀 Future Scope
+
+- Task expansion per phase
+- Auto GitHub issue creation
+- Code generation agent
+- Phase progress tracking
+- Deployment support
+
+---
+
+# 👨‍💻 Built For Hackathon
+
+Execution Orecal demonstrates:
+
+- Full-stack AI integration
+- LLM workflow automation
+- Clean API architecture
+- Modern frontend experience
+
+---
+
+### 💡 Turn ideas into action.

@@ -1,25 +1,25 @@
-from app.state.store import STATE, load_state, save_state, clear_state, archive_state
-from app.agents.planner import generate_phases
-from app.agents.task_expander import expand_phase
-from app.agents.verifier import verify_phase
-from app.utils.ui import (
+from state.store import STATE, load_state, save_state, clear_state, archive_state
+from agents.planner import generate_phases
+from agents.task_expander import expand_phase
+from agents.verifier import verify_phase
+from utils.ui import (
     console, print_header, print_success, print_error, print_warning, print_info,
     print_phase_header, print_tasks_table, print_phases_list, ask_input, ask_confirm,
     print_commit_message, print_note, print_welcome, print_separator, print_task_stats,
     print_task_commands, print_phase_history, print_rollback_warning, ask_rollback_target,
     Panel, box
 )
-from app.utils.task_manager import (
+from utils.task_manager import (
     save_tasks, get_tasks, mark_task_complete, mark_task_incomplete,
     add_task, delete_task, edit_task, get_task_stats, start_phase_timer, complete_phase_timer
 )
-from app.utils.rollback import (
+from utils.rollback import (
     record_phase_completion, get_phase_history, rollback_to_phase, retry_current_phase,
     can_rollback, get_rollback_choices, undo_last_verification
 )
-from app.agents.suggestion_agent import get_suggestions
-from app.utils.git_utils import is_git_repo, get_current_branch, create_branch
-from app.utils.github import (
+from agents.suggestion_agent import get_suggestions
+from utils.git_utils import is_git_repo, get_current_branch, create_branch
+from utils.github import (
     create_issue, create_pull_request, create_label, 
     add_labels_to_issue, create_milestone
 )

@@ -4,7 +4,7 @@ Handles task CRUD operations, completion tracking, and time tracking
 """
 
 from datetime import datetime
-from app.state.store import STATE, save_state
+from state.store import STATE, save_state
 
 
 def save_tasks(phase_index, tasks):

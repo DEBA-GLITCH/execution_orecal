@@ -37,7 +37,7 @@ def chat(data: dict):
                     project_info = msg.get("content", "")
             
             # Generate phases
-            phases = generate_phases(project_info)
+            phases = generate_phases(project_info, "", "", "")
             
             if phases:
                 phase_data = []
@@ -78,7 +78,7 @@ def start_project(data: dict):
     idea = data.get("idea", "")
     
     # Generate phases from the idea
-    phases = generate_phases(idea)
+    phases = generate_phases(idea, "", "", "")
     
     if not phases:
         return {"error": "Failed to generate phases"}
