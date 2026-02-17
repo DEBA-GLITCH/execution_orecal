@@ -351,3 +351,14 @@ A: Currently, data is stored locally. No external storage is configured by defau
 A: Yes! You'll need to configure proper environment variables, database setup, and deploy both backend and frontend separately.
 
 ---
+
+## Autonomous coder agent (Experimental)
+
+Features:
+- Adaptive complexity planning
+- Branch-safe execution
+- File-by-file diff preview
+- Rewrite loop
+- Resumable session recovery
+- PAT-based GitHub push
+

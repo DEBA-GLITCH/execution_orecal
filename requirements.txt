@@ -1,4 +1,5 @@
-groq
+
 python-dotenv
 requests
 rich
+groq
