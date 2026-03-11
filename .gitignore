@@ -1,3 +1,5 @@
 .env
 __pycache__
 .oracle_data/
+.idea/
+.vscode/
